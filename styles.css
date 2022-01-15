@@ -1,0 +1,67 @@
+body * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-color: rgb(224, 224, 224);
+}
+
+header {
+    padding: 3vh;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 0;
+}
+
+header > h1 {
+    font-family: "Comic Sans MS", "Comic Sans";
+}
+
+nav ul {
+    width: 250px;
+    list-style-type: none;
+    padding: 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.main {
+    margin: 1vh 15vh;
+    display: flex;
+}
+
+.main-pane{
+    width:60%;
+    flex: 1;
+}
+.reco-pane{
+    width:40%;
+    flex: 1;
+}
+
+section {
+    box-sizing: border-box;
+    border: solid 1px #CCC; 
+    width: 40vh;
+    padding: 10px 0;
+    margin: 10px;
+    height: 75vh;
+    background-color: white;
+}
+
+section > * {
+    margin: 10px 20px;
+}
+
+section > img {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-height: 45vh;
+    height: auto;
+    object-fit: cover;
+}
