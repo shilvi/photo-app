@@ -193,7 +193,7 @@ section {
     margin-top: 20px;
 }
 .post-message > * {
-    font-size: 16px;
+    font-size: 100%;
 }
 .a-username {
     font-weight: bold;
@@ -202,7 +202,7 @@ section {
     margin: 10px 0;
 }
 .post-comment > * {
-    font-size: 15px;
+    font-size: 95%;
 }
 .post-date {
     color: rgb(128, 128, 128);
@@ -251,6 +251,10 @@ section {
 }
 
 @media only screen and (max-width: calc((1 / 0.95) * 620px)) {
+    header > h1 {
+        font-size: large;
+        font-weight: bolder;
+    }
     .main {
         display: block;
     }
