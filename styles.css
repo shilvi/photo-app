@@ -9,39 +9,121 @@ body {
 }
 
 header {
-    padding: 3vh;
+    padding: 10px 30px;
     background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 0;
+    position: sticky;
+    top: 0;
+    border-bottom: solid 3px rgb(128, 128, 128); 
 }
 
 header > h1 {
-    font-family: "Comic Sans MS", "Comic Sans";
+    font-family: 'Comfortaa', cursive;
+    font-weight: bold;
+    font-size: x-large;
 }
 
-nav ul {
-    width: 250px;
+nav > ul {
     list-style-type: none;
     padding: 0px;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
+}
+
+ul > li {
+    padding: 5px;
+}
+
+.profile-pic {
+    height: 100%;
+    border-radius: 50%;
+}
+
+.button-link {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    font-size: 20px;
+    color: #069;
+    cursor: pointer;
+}
+.button-link:hover {
+    text-decoration: underline;
+}
+
+.button-icon {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    cursor: pointer;
+}
+.button-icon:hover {
+    color: rgb(128, 128, 128);
+}
+.button-icon > i {
+    margin: 0 3px;
+    font-size: x-large;
 }
 
 .main {
-    margin: 1vh auto;
+    margin: 20px auto;
     display: flex;
+    min-height: 0;
     width: 960px;
 }
 
 .main-pane{
     flex: 1;
-    padding-right: 20px;
 }
 .reco-pane{
     flex: 1;
-    background-color: yellow;
+    margin: 10px;
+}
+
+.reco {
+    position: fixed;
+}
+.reco-profile {
+    height: 100px;
+    display: flex;
+}
+.reco-profile > img {
+    flex: 1;
+}
+.reco-profile > a {
+    flex: 1;
+    padding-left: 30px;
+    font-size: 40px;
+    font-family: 'Comfortaa', cursive;
+    font-weight: bold;
+    margin: auto
+}
+.reco-suggestions > h2 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: rgb(128, 128, 128);
+    font-size: 30px;
+}
+.reco-suggestion {
+    margin: 30px 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+.reco-suggestion > * {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.reco-suggestion-name > a {
+    font-weight: bold;
+    font-size: 25px;
+}
+.reco-suggestion-suggest > a {
+    font-weight: bold;
+    color: rgb(128, 128, 128);
+    font-size: 20px;
 }
 
 section {
@@ -53,32 +135,115 @@ section {
     background-color: white;
 }
 
-section > * {
-    margin: 10px 20px;
+.stories-list {
+    white-space: nowrap;
+    height: 100px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.stories-list::-webkit-scrollbar {
+    display: none;
+  }
+.story-div {
+    display: inline-block;
+    height: 100%;
+    margin: 0 10px;
+}
+.story-img {
+    height: 60px;
+}
+.story-img > img {
+    border: solid 3px rgb(128, 128, 128);
+    display: block;
+    margin: auto;
+}
+.story-name > a {
+    display: block;
+    text-align: center;
+    margin: auto;
 }
 
-section > img {
+
+.post-card > * {
+    margin: 10px 20px;
+}
+.post-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.post-flex > h2 {
+    font-family: 'Comfortaa', cursive;
+}
+.post-flex > * {
+    margin: 0;
+}
+.post-card > img {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
     height: auto;
     object-fit: cover;
 }
+.post-likes {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 30px;
+}
+.post-message {
+    margin-top: 20px;
+}
+.post-message > * {
+    font-size: 16px;
+}
+.a-username {
+    font-weight: bold;
+}
+.post-comment {
+    margin: 10px 0;
+}
+.post-comment > * {
+    font-size: 15px;
+}
+.post-date {
+    color: rgb(128, 128, 128);
+}
+.comment-box {
+    display: inline-flex;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: solid 1px rgb(128, 128, 128);
+    width: 100%;
+}
+.comment-box > textarea {
+    border: none;
+    resize: none;
+    height: 50px;
+    width: 90%;
+    padding-top: 15px;
+    font-size: 20px;
+}
+.comment-box > button {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.comment-box > .button-link {
+    float: right;
+    margin-right: 0;
+}
 
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
     .main {
         width: auto;
         margin: auto;
     }
 
-    .main-pane{
-        padding-right: 0;
-    }
-
     section {
-        width: 800px;
-        margin: 1vh auto;
+        margin: 10px auto;
     }
 
     .reco-pane{
@@ -86,21 +251,11 @@ section > img {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: calc((1 / 0.95) * 620px)) {
     .main {
-        width: auto;
+        display: block;
     }
-
-    .main-pane{
-        padding-right: 0;
-    }
-    
     section {
-        width: 100%;
-        margin: 1vh 0;
-    }
-
-    .reco-pane{
-        display: none;
+        width: 95%;
     }
 }
