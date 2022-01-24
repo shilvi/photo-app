@@ -103,7 +103,7 @@ ul > li {
 .reco-suggestions > h2 {
     padding-top: 10px;
     padding-bottom: 10px;
-    color: rgb(128, 128, 128);
+    color: rgb(96, 96, 96);
     font-size: 30px;
 }
 .reco-suggestion {
@@ -121,7 +121,7 @@ ul > li {
     font-size: 25px;
 }
 .reco-suggestion-suggest > a {
-    color: rgb(128, 128, 128);
+    color: rgb(96, 96, 96);
     font-size: 20px;
 }
 
@@ -210,7 +210,7 @@ section {
     font-size: 95%;
 }
 .post-date {
-    color: rgb(128, 128, 128);
+    color: rgb(100, 100, 100);
 }
 .comment-box {
     display: inline-flex;

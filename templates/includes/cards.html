@@ -4,7 +4,7 @@
         <h2>{{ post.get('user').get('username') }}</h2>
         <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
     </div>
-    <img src="{{ post.get('image_url') }}" alt="{{ post.get('title') }}">
+    <img src="{{ post.get('image_url') }}" alt="Image by {{ post.get('user').get('username') }} posted on {{ post.get('time_posted') }}">
     <div class="post-flex">
         <div>
             <button class="button-icon"><i class="far fa-heart"></i></button>
@@ -35,7 +35,10 @@
     <p class="post-date">{{ post.get('display_time').upper() }}</p>
     <div class="comment-box">
         <button class="button-icon"><i class="far fa-smile"></i></button>
-        <textarea placeholder="Add a comment…"></textarea>
+        <label for="comment_{{ post.get('user').get('username') }}_{{ post.get('time_posted') }}"
+               style="display: none">Comment Box</label>
+        <textarea id="comment_{{ post.get('user').get('username') }}_{{ post.get('time_posted') }}"
+                  placeholder="Add a comment…"></textarea>
         <button class="button-link">Post</a>
     </div>
 </section>

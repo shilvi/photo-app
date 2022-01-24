@@ -1,14 +1,14 @@
 <div class="reco-pane">
     <div class="reco">
         <div class="reco-profile">
-            <img class="profile-pic" src="{{ user.get('profile_url') }}" alt="{{ user.get('username') }}">
+            <img class="profile-pic" src="{{ user.get('profile_url') }}" alt="Profile Pic for {{ user.get('username') }}">
             <a>{{ user.get('username') }}</a>
         </div>
         <div class="reco-suggestions">
             <h2>Suggestions For You</h2>
             {% for suggestion in suggestions %}
             <div class="reco-suggestion">
-                <img class="profile-pic" src="{{ suggestion.get('profile_url') }}" alt="{{ suggestion.get('username') }}">
+                <img class="profile-pic" src="{{ suggestion.get('profile_url') }}" alt="Profile Pic for {{ suggestion.get('username') }}">
                 <div>
                     <div class="reco-suggestion-name"><a>{{ suggestion.get('username') }}</a></div>
                     <div class="reco-suggestion-suggest"><a>suggested for you</a></div>
