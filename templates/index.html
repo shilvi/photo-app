@@ -3,244 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Photo App</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-    <header>
-        <h1>Photo App</h1>
-        <nav>
-            <ul>
-                <li><a style="font-size: larger; font-weight: bold;">shilvisatpati</a></li>
-                <li><button class="button-link" style="font-size: larger; font-weight: bold;">Sign out</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'includes/navbar.html' %}
 
     <div class="main">
         <div class="main-pane">
-            <section class="stories-list">
-                <div class="story-div">
-                    <div class="story-img"><img class="profile-pic" src="https://secure.gravatar.com/avatar/9b0a97cd91e4ec38404d589382b3f42f?s=200" alt="Profile"></div>
-                    <div class="story-name"><a>shilvisatpati</a></div>
-                </div>
-                <div class="story-div">
-                    <div class="story-img"><img class="profile-pic" src="https://i.picsum.photos/id/824/200/200.jpg?hmac=Uozb__ejlYDEziPN80UpSs6tvyqjiIyjnWYj9gaPP-Y" alt="Profile"></div>
-                    <div class="story-name"><a>nithin</a></div>
-                </div>
-                <div class="story-div">
-                    <div class="story-img"><img class="profile-pic" src="https://i.picsum.photos/id/565/200/200.jpg?hmac=QvKo8qgzFFNcZoXCpT0CNMDTwWd3ynwqLXxrzK2o8fw" alt="Profile"></div>
-                    <div class="story-name"><a>archak</a></div>
-                </div>
-                <div class="story-div">
-                    <div class="story-img"><img class="profile-pic" src="https://i.picsum.photos/id/755/200/200.jpg?hmac=fgsDUz8GLl3UPtHhHlMIabU9V8LhbOPCwYGzrrn6CyU" alt="Profile"></div>
-                    <div class="story-name"><a>simran</a></div>
-                </div>
-                <div class="story-div">
-                    <div class="story-img"><img class="profile-pic" src="https://i.picsum.photos/id/392/200/200.jpg?hmac=ak-KtzKC0Jti-NM7mUiMRMrFtjugHqzFuMxmiKIeL8Q" alt="Profile"></div>
-                    <div class="story-name"><a>rohith</a></div>
-                </div>
-            </section>
-            <section class="post-card">
-                <div class="post-flex">
-                    <h2>shilvisatpati</h2>
-                    <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
-                </div>
-                <img src="https://i.imgur.com/BJyGaX7.jpg" alt="Photo by Me" referrerpolicy="no-referrer">
-                <div class="post-flex">
-                    <div>
-                        <button class="button-icon"><i class="far fa-heart"></i></button>
-                        <button class="button-icon"><i class="far fa-comment"></i></button>
-                        <button class="button-icon"><i class="far fa-paper-plane"></i></button>
-                    </div>
-                    <button class="button-icon"><i class="far fa-bookmark"></i></button>
-                </div>
-                <p class="post-likes">30 likes</p>
-                <div class="post-message">
-                    <a class="a-username">shilvisatpati</a>
-                    <a class="a-message">photography is an austere and blazing poetry of the real. When words become unclear, I shall focus with photographs... </a>
-                    <button class="button-link">more</a>
-                </div>
-                <div class="post-comments">
-                    <div class="post-comment">
-                        <a class="a-username">nithin</a>
-                        <a class="a-message">Very Nice</a>
-                    </div>
-                    <div class="post-comment">
-                        <a class="a-username">archak</a>
-                        <a class="a-message">Amazing</a>
-                    </div>
-                </div>
-                <p class="post-date">1 DAY AGO</p>
-                <div class="comment-box">
-                    <button class="button-icon"><i class="far fa-smile"></i></button>
-                    <textarea placeholder="Add a comment…"></textarea>
-                    <button class="button-link">Post</a>
-                </div>
-            </section><section class="post-card">
-                <div class="post-flex">
-                    <h2>shilvisatpati</h2>
-                    <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
-                </div>
-                <img src="https://i.imgur.com/giPlNCL.jpg" alt="Photo by Me" referrerpolicy="no-referrer">
-                <div class="post-flex">
-                    <div>
-                        <button class="button-icon"><i class="far fa-heart"></i></button>
-                        <button class="button-icon"><i class="far fa-comment"></i></button>
-                        <button class="button-icon"><i class="far fa-paper-plane"></i></button>
-                    </div>
-                    <button class="button-icon"><i class="far fa-bookmark"></i></button>
-                </div>
-                <p class="post-likes">30 likes</p>
-                <div class="post-message">
-                    <a class="a-username">shilvisatpati</a>
-                    <a class="a-message">photography is an austere and blazing poetry of the real. When words become unclear, I shall focus with photographs... </a>
-                    <button class="button-link">more</a>
-                </div>
-                <div class="post-comments">
-                    <div class="post-comment">
-                        <a class="a-username">nithin</a>
-                        <a class="a-message">Very Nice</a>
-                    </div>
-                    <div class="post-comment">
-                        <a class="a-username">archak</a>
-                        <a class="a-message">Amazing</a>
-                    </div>
-                </div>
-                <p class="post-date">1 DAY AGO</p>
-                <div class="comment-box">
-                    <button class="button-icon"><i class="far fa-smile"></i></button>
-                    <textarea placeholder="Add a comment…"></textarea>
-                    <button class="button-link">Post</a>
-                </div>
-            </section><section class="post-card">
-                <div class="post-flex">
-                    <h2>shilvisatpati</h2>
-                    <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
-                </div>
-                <img src="https://i.imgur.com/yEY5frY.jpg" alt="Photo by Me" referrerpolicy="no-referrer">
-                <div class="post-flex">
-                    <div>
-                        <button class="button-icon"><i class="far fa-heart"></i></button>
-                        <button class="button-icon"><i class="far fa-comment"></i></button>
-                        <button class="button-icon"><i class="far fa-paper-plane"></i></button>
-                    </div>
-                    <button class="button-icon"><i class="far fa-bookmark"></i></button>
-                </div>
-                <p class="post-likes">30 likes</p>
-                <div class="post-message">
-                    <a class="a-username">shilvisatpati</a>
-                    <a class="a-message">photography is an austere and blazing poetry of the real. When words become unclear, I shall focus with photographs... </a>
-                    <button class="button-link">more</a>
-                </div>
-                <div class="post-comments">
-                    <div class="post-comment">
-                        <a class="a-username">nithin</a>
-                        <a class="a-message">Very Nice</a>
-                    </div>
-                    <div class="post-comment">
-                        <a class="a-username">archak</a>
-                        <a class="a-message">Amazing</a>
-                    </div>
-                </div>
-                <p class="post-date">1 DAY AGO</p>
-                <div class="comment-box">
-                    <button class="button-icon"><i class="far fa-smile"></i></button>
-                    <textarea placeholder="Add a comment…"></textarea>
-                    <button class="button-link">Post</a>
-                </div>
-            </section><section class="post-card">
-                <div class="post-flex">
-                    <h2>shilvisatpati</h2>
-                    <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
-                </div>
-                <img src="https://i.imgur.com/MImvddY.jpg" alt="Photo by Me" referrerpolicy="no-referrer">
-                <div class="post-flex">
-                    <div>
-                        <button class="button-icon"><i class="far fa-heart"></i></button>
-                        <button class="button-icon"><i class="far fa-comment"></i></button>
-                        <button class="button-icon"><i class="far fa-paper-plane"></i></button>
-                    </div>
-                    <button class="button-icon"><i class="far fa-bookmark"></i></button>
-                </div>
-                <p class="post-likes">30 likes</p>
-                <div class="post-message">
-                    <a class="a-username">shilvisatpati</a>
-                    <a class="a-message">photography is an austere and blazing poetry of the real. When words become unclear, I shall focus with photographs... </a>
-                    <button class="button-link">more</a>
-                </div>
-                <div class="post-comments">
-                    <div class="post-comment">
-                        <a class="a-username">nithin</a>
-                        <a class="a-message">Very Nice</a>
-                    </div>
-                    <div class="post-comment">
-                        <a class="a-username">archak</a>
-                        <a class="a-message">Amazing</a>
-                    </div>
-                </div>
-                <p class="post-date">1 DAY AGO</p>
-                <div class="comment-box">
-                    <button class="button-icon"><i class="far fa-smile"></i></button>
-                    <textarea placeholder="Add a comment…"></textarea>
-                    <button class="button-link">Post</a>
-                </div>
-            </section>
+            
+            {% include 'includes/stories.html' %}
+
+            {% include 'includes/cards.html' %}
+
         </div>
-        <div class="reco-pane">
-            <div class="reco">
-                <div class="reco-profile">
-                    <img class="profile-pic" src="https://secure.gravatar.com/avatar/9b0a97cd91e4ec38404d589382b3f42f?s=200" alt="Profile">
-                    <a>shilvisatpati</a>
-                </div>
-                <div class="reco-suggestions">
-                    <h2>Suggestions For You</h2>
-                    <div class="reco-suggestion">
-                        <img class="profile-pic" src="https://i.picsum.photos/id/586/200/200.jpg?hmac=qCQKBciYy8H3AxcVxnTZLYwXw02r33F5_3E4UmlB8H4" alt="Profile">
-                        <div>
-                            <div class="reco-suggestion-name"><a>amrutha</a></div>
-                            <div class="reco-suggestion-suggest"><a>suggested for you</a></div>
-                        </div>
-                        <button class="button-link">follow</a>
-                    </div>
-                    <div class="reco-suggestion">
-                        <img class="profile-pic" src="https://i.picsum.photos/id/339/200/200.jpg?hmac=2WImWsd4zDxoeCq2Lp_V2coB_alwLgJo5pW3Kox-3zY" alt="Profile">
-                        <div>
-                            <div class="reco-suggestion-name"><a>shamayita</a></div>
-                            <div class="reco-suggestion-suggest"><a>suggested for you</a></div>
-                        </div>
-                        <button class="button-link">follow</a>
-                    </div>
-                    <div class="reco-suggestion">
-                        <img class="profile-pic" src="https://i.picsum.photos/id/77/200/200.jpg?hmac=RaFJkrixMn3dR7INSPWcmjC7HCxmggmF5mTlMpyEHsQ" alt="Profile">
-                        <div>
-                            <div class="reco-suggestion-name"><a>gayatri</a></div>
-                            <div class="reco-suggestion-suggest"><a>suggested for you</a></div>
-                        </div>
-                        <button class="button-link">follow</a>
-                    </div>
-                    <div class="reco-suggestion">
-                        <img class="profile-pic" src="https://i.picsum.photos/id/675/200/200.jpg?hmac=9STfESSQ22nwjFi-38ZsER3DM6mArzbYkLPEgq3cHXg" alt="Profile">
-                        <div>
-                            <div class="reco-suggestion-name"><a>vaish</a></div>
-                            <div class="reco-suggestion-suggest"><a>suggested for you</a></div>
-                        </div>
-                        <button class="button-link">follow</a>
-                    </div>
-                    <div class="reco-suggestion">
-                        <img class="profile-pic" src="https://i.picsum.photos/id/337/200/200.jpg?hmac=9bd24xSAcmLdObO71hB9dXskhXQmQ2b0YB3QTAzhUtY" alt="Profile">
-                        <div>
-                            <div class="reco-suggestion-name"><a>deep</a></div>
-                            <div class="reco-suggestion-suggest"><a>suggested for you</a></div>
-                        </div>
-                        <button class="button-link">follow</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        {% include 'includes/suggestions.html' %}
+
     </div>
   
 </body>

@@ -1,0 +1,42 @@
+{% for post in posts %}
+<section class="post-card">
+    <div class="post-flex">
+        <h2>{{ post.get('user').get('username') }}</h2>
+        <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
+    </div>
+    <img src="{{ post.get('image_url') }}" alt="{{ post.get('title') }}">
+    <div class="post-flex">
+        <div>
+            <button class="button-icon"><i class="far fa-heart"></i></button>
+            <button class="button-icon"><i class="far fa-comment"></i></button>
+            <button class="button-icon"><i class="far fa-paper-plane"></i></button>
+        </div>
+        <button class="button-icon"><i class="far fa-bookmark"></i></button>
+    </div>
+    <p class="post-likes">{{ post.get('likes') }} likes</p>
+    <div class="post-message">
+        <a class="a-username">{{ post.get('user').get('username') }}</a>
+        <a class="a-message">{{ post.get('title') }}</a>
+        <button class="button-link">more</button>
+    </div>
+
+    {% if post.get('comments')|length > 1 %}
+    <button class="button-link">View all {{ post.get('comments')|length }} comments</button>
+    {% endif %}
+    
+    <div class="post-comments">
+        {% if post.get('comments')|length >= 1 %}
+        <div class="post-comment">
+            <a class="a-username">{{ post.get('comments')[0].get('user').get('username') }}</a>
+            <a class="a-message">{{ post.get('comments')[0].get('text') }}</a>
+        </div>
+        {% endif %}
+    </div>
+    <p class="post-date">{{ post.get('display_time').upper() }}</p>
+    <div class="comment-box">
+        <button class="button-icon"><i class="far fa-smile"></i></button>
+        <textarea placeholder="Add a comment…"></textarea>
+        <button class="button-link">Post</a>
+    </div>
+</section>
+{% endfor %}

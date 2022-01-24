@@ -89,9 +89,6 @@ ul > li {
     height: 100px;
     display: flex;
 }
-.reco-profile > img {
-    flex: 1;
-}
 .reco-profile > a {
     flex: 1;
     padding-left: 30px;
@@ -99,6 +96,9 @@ ul > li {
     font-family: 'Comfortaa', cursive;
     font-weight: bold;
     margin: auto
+}
+.reco-suggestions {
+    width: 400px;
 }
 .reco-suggestions > h2 {
     padding-top: 10px;
@@ -197,6 +197,11 @@ section {
 }
 .a-username {
     font-weight: bold;
+}
+.post-card > .button-link {
+    font-size: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 .post-comment {
     margin: 10px 0;
