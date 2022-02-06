@@ -18,7 +18,7 @@ class PostListEndpoint(Resource):
         limit = request.args.get('limit') or 20
         if not 0 <= int(limit) <= 50:
             return Response(json.dumps({'message': 'Invalid Limit'}), mimetype="application/json", status=400)
-        posts = Post.query.filter(Post.user_id.in_(get_authorized_user_ids(self.current_user))).limit(limit)
+        posts = Post.query.filter(Post.user_id.in_(get_authorized_user_ids(self.current_user))).order_by(Post.pub_date.desc()).limit(limit)
         return Response(json.dumps([item.to_dict() for item in posts.all()]), mimetype="application/json", status=200)
 
 
