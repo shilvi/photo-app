@@ -1,6 +1,7 @@
 from flask import Response, request
 from flask_restful import Resource
 from models import Following
+from . import return_400_on_exception
 import json
 
 def get_path():
@@ -10,9 +11,10 @@ class FollowerListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @return_400_on_exception
     def get(self):
-        # Your code here
-        return Response(json.dumps([]), mimetype="application/json", status=200)
+        followers = Following.query.filter(Following.following_id == self.current_user.id)
+        return Response(json.dumps([item.to_dict_follower() for item in followers]), mimetype="application/json", status=200)
 
 
 def initialize_routes(api):
