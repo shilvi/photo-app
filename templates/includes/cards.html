@@ -4,7 +4,7 @@
         <h2>{{ post.get('user').get('username') }}</h2>
         <button class="button-icon"><i class="fas fa-ellipsis-h"></i></button>
     </div>
-    <img src="{{ post.get('image_url') }}" alt="Image by {{ post.get('user').get('username') }} posted on {{ post.get('time_posted') }}">
+    <img src="{{ post.get('image_url') }}" alt="{{ post.get('alt_text') }}">
     <div class="post-flex">
         <div>
             <button class="button-icon"><i class="far fa-heart"></i></button>
@@ -16,7 +16,7 @@
     <p class="post-likes">{{ post.get('likes') }} likes</p>
     <div class="post-message">
         <a class="a-username">{{ post.get('user').get('username') }}</a>
-        <a class="a-message">{{ post.get('title') }}</a>
+        <a class="a-message">{{ post.get('caption') }}</a>
         <button class="button-link">more</button>
     </div>
 

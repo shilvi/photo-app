@@ -1,6 +1,22 @@
 from datetime import datetime
 import random
-from . import db
+from . import db, LikePost
+
+def format_display_time(the_date):
+    diff = datetime.now() - the_date
+    days = diff.days
+    hours = diff.seconds // 3600
+    if days == 0:
+        if hours < 0:
+            return 'Just now'
+        elif hours == 1:
+            return '1 hour ago'
+        else:
+            return '{0} hours ago'.format(hours)
+    elif days == 1:
+        return '1 day ago'
+    else:
+        return '{0} days ago'.format(days)
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -35,7 +51,9 @@ class Post(db.Model):
             'image_url': self.image_url,
             'user': self.user.to_dict(),
             'caption': self.caption, 
-            'alt_text': self.alt_text
+            'alt_text': self.alt_text,
+            'display_time': format_display_time(self.pub_date),
+            'likes': LikePost.query.filter(LikePost.post_id == self.id).count()
         }
         if include_comments:
             d['comments'] = [

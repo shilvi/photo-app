@@ -1,7 +1,7 @@
 <section class="stories-list">
     {% for story in stories %}
     <div class="story-div">
-        <div class="story-img"><img class="profile-pic" src="{{ story.get('user').get('profile_url') }}" alt="Profile Pic for {{ story.get('user').get('username') }}"></div>
+        <div class="story-img"><img class="profile-pic" src="{{ story.get('user').get('thumb_url') }}" alt="Profile Pic for {{ story.get('user').get('username') }}"></div>
         <div class="story-name"><a>{{ story.get('user').get('username') }}</a></div>
     </div>
     {% endfor %}

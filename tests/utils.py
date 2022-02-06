@@ -113,6 +113,30 @@ def get_unliked_post_id_by_user(user_id):
         post_id = rows[0][0]
         return post_id
 
+def get_unliked_comment_id_by_user(user_id):
+    ids = get_authorized_user_ids(user_id)
+    with db.connect() as conn:
+        sql = '''
+            SELECT c.id 
+            FROM comments c
+            WHERE c.id NOT IN (
+                    -- comments that are already bookmarked:
+                    SELECT comment_id from likes_comments where user_id={user_id}
+                )
+                AND c.post_id IN (
+                    -- posts the current user can access:
+                    SELECT id from posts where user_id IN ({authorized_user_ids})
+                )
+            LIMIT 1
+        '''.format(
+                user_id=user_id,
+                authorized_user_ids=', '.join([str(id) for id in ids])
+            )
+        rows = list(conn.execute(sql))
+        conn.close()
+        comment_id = rows[0][0]
+        return comment_id
+
 
 def restore_post_by_id(post):
     with db.connect() as conn:
@@ -165,6 +189,19 @@ def restore_liked_post(liked_post):
             id=liked_post.get('id'),
             post_id=liked_post.get('post_id'),
             user_id=liked_post.get('user_id'),
+        )
+        conn.execute(sql)
+        conn.close()
+
+def restore_liked_comment(liked_comment):
+    with db.connect() as conn:
+        sql = '''
+            INSERT INTO likes_comments(id, comment_id, user_id, timestamp) 
+            VALUES({id}, {comment_id}, {user_id}, now())
+        '''.format(
+            id=liked_comment.get('id'),
+            comment_id=liked_comment.get('comment_id'),
+            user_id=liked_comment.get('user_id'),
         )
         conn.execute(sql)
         conn.close()
@@ -257,6 +294,29 @@ def get_post_that_user_cannot_access(user_id):
         object = _zip(columns, rows)
         return object
 
+def get_comment_that_user_cannot_access(user_id):
+    with db.connect() as conn:
+        inspector = inspect(db)
+        ids = get_authorized_user_ids(user_id)
+
+        # then query for a comment that was NOT created by one of these users:
+        sql = '''
+            SELECT comments.id, comments.text, comments.pub_date,
+                comments.user_id, comments.post_id
+            FROM comments 
+            LEFT OUTER JOIN users AS users_1 ON 
+                users_1.id = comments.user_id
+            LEFT OUTER JOIN posts AS posts_1 ON
+                posts_1.id = comments.post_id
+            WHERE (posts_1.user_id NOT IN ({0})) 
+            LIMIT 1
+        '''.format(', '.join([str(id) for id in ids]))
+        columns = [c.get('name') for c in inspector.get_columns('comments')]
+        rows = conn.execute(sql)
+        conn.close()
+        object = _zip(columns, rows)
+        return object
+
 
 def get_x_that_user_cannot_delete(table_name, user_id):
     with db.connect() as conn:
@@ -284,6 +344,10 @@ def get_following_that_user_cannot_delete(user_id):
 
 def get_liked_post_that_user_cannot_delete(user_id):
     return get_x_that_user_cannot_delete('likes_posts', user_id)
+
+
+def get_liked_comment_that_user_cannot_delete(user_id):
+    return get_x_that_user_cannot_delete('likes_comments', user_id)
 
 
 def get_stories_by_user(user_id):
@@ -336,6 +400,10 @@ def delete_like_by_id(id):
     delete_x_by_id('likes_posts', id)
 
 
+def delete_like_comment_by_id(id):
+    delete_x_by_id('likes_comments', id)
+
+
 def delete_following_by_id(id):
     delete_x_by_id('following', id)
 
@@ -373,6 +441,10 @@ def get_liked_post_by_user(user_id):
     return get_x_by_user('likes_posts', user_id)
 
 
+def get_liked_comment_by_user(user_id):
+    return get_x_by_user('likes_comments', user_id)
+
+
 def get_comment_by_user(user_id):
     return get_x_by_user('comments', user_id)
 
@@ -408,6 +480,10 @@ def get_bookmark_by_id(id):
 
 def get_liked_post_by_id(id):
     return get_x_by_id('likes_posts', id)
+
+
+def get_liked_comment_by_id(id):
+    return get_x_by_id('likes_comments', id)
 
 
 def get_following_by_id(id):

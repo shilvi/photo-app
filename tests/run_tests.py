@@ -9,6 +9,7 @@ from tests.test_comments import TestCommentListEndpoint, TestCommentDetailEndpoi
 from tests.test_followers import TestFollowerListEndpoint
 from tests.test_following import TestFollowingListEndpoint
 from tests.test_like_post import TestLikePostListEndpoint
+from tests.test_like_comment import TestLikeCommentListEndpoint
 from tests.test_posts import TestPostListEndpoint, TestPostDetailEndpoint
 from tests.test_profile import TestProfileEndpoint
 from tests.test_stories import TestStoryListEndpoint
