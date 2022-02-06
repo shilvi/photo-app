@@ -1,7 +1,7 @@
 from flask import Response, request
 from flask_restful import Resource
 from models import Post, User, db
-from . import can_view_post, get_authorized_user_ids
+from . import can_view_post, get_authorized_user_ids, return_400_on_exception
 import json
 from sqlalchemy import and_
 
@@ -13,20 +13,17 @@ class PostListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
 
+    @return_400_on_exception
     def get(self):
-        # TODO: 
-        # 1. No security implemented; 
-        # 2. limit is hard coded (versus coming from the query parameter)
-        # 3. No error checking
-        data = Post.query.limit(20).all()
-
-        data = [
-            item.to_dict() for item in data
-        ]
-        return Response(json.dumps(data), mimetype="application/json", status=200)
+        limit = request.args.get('limit') or 20
+        if not 0 <= int(limit) <= 50:
+            return Response(json.dumps({'message': 'Invalid Limit'}), mimetype="application/json", status=400)
+        posts = Post.query.filter(Post.user_id.in_(get_authorized_user_ids(self.current_user))).limit(limit)
+        return Response(json.dumps([item.to_dict() for item in posts.all()]), mimetype="application/json", status=200)
 
 
 
+    @return_400_on_exception
     def post(self):
         body = request.get_json()
         image_url = body.get('image_url')
@@ -45,6 +42,7 @@ class PostDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
         
+    @return_400_on_exception
     def patch(self, id):
         post = Post.query.get(id)
 
@@ -62,6 +60,7 @@ class PostDetailEndpoint(Resource):
         db.session.commit()        
         return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
     
+    @return_400_on_exception
     def delete(self, id):
 
         # a user can only delete their own post:
@@ -77,6 +76,7 @@ class PostDetailEndpoint(Resource):
         }
         return Response(json.dumps(serialized_data), mimetype="application/json", status=200)
 
+    @return_400_on_exception
     def get(self, id):
         post = Post.query.get(id)
 

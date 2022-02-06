@@ -1,5 +1,9 @@
+import json
+from functools import wraps
+
 from models import db, Following, Post
 from sqlalchemy import and_
+from flask import Response
 
 '''
 Below are some helper functions to help you with security:
@@ -30,4 +34,12 @@ def can_view_post(post_id, user):
     if not post:
         return False
     return True
-        
+
+def return_400_on_exception(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            return Response(json.dumps({'message': str(e)}), mimetype="application/json", status=400)
+    return wrapper
