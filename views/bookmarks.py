@@ -1,8 +1,8 @@
 from flask import Response, request
 from flask_restful import Resource
-from models import Bookmark, db
+from models import Bookmark, db, Post
 import json
-from . import can_view_post
+from . import can_view_post, return_400_on_exception
 
 class BookmarksListEndpoint(Resource):
 
@@ -10,21 +10,37 @@ class BookmarksListEndpoint(Resource):
         self.current_user = current_user
     
     def get(self):
-        # Your code here
-        return Response(json.dumps([]), mimetype="application/json", status=200)
+        bookmarks = Bookmark.query.filter(Bookmark.user_id == self.current_user.id).all()
+        return Response(json.dumps([item.to_dict() for item in bookmarks]), mimetype="application/json", status=200)
 
+    @return_400_on_exception
     def post(self):
-        # Your code here
-        return Response(json.dumps({}), mimetype="application/json", status=201)
+        body = request.get_json()
+        post_id = body.get('post_id')
+        user_id = self.current_user.id
+
+        if not Post.query.get(int(post_id)) or not can_view_post(post_id, self.current_user):
+            return Response(json.dumps({'message': f'Post {post_id} does not exist'}), mimetype="application/json", status=404)
+
+        bookmark = Bookmark(user_id, post_id)
+        db.session.add(bookmark)
+        db.session.commit()
+        return Response(json.dumps(bookmark.to_dict()), mimetype="application/json", status=201)
 
 class BookmarkDetailEndpoint(Resource):
 
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @return_400_on_exception
     def delete(self, id):
-        # Your code here
-        return Response(json.dumps({}), mimetype="application/json", status=200)
+        bookmark_query = Bookmark.query.filter_by(id=id)
+        bookmark = bookmark_query.first()
+        if not bookmark or bookmark.user_id != self.current_user.id:
+            return Response(json.dumps({'message': 'Not Bookmarked'}), mimetype="application/json", status=404)
+        bookmark_query.delete()
+        db.session.commit()
+        return Response(json.dumps({'message': 'Unbookmarked'}), mimetype="application/json", status=200)
 
 
 
