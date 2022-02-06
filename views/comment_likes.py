@@ -2,7 +2,7 @@ from flask import Response
 from flask_restful import Resource
 from models import LikeComment, db, Comment
 import json
-from . import get_authorized_user_ids, return_400_on_exception
+from . import get_authorized_user_ids, can_view_post, return_400_on_exception
 
 class CommentLikesListEndpoint(Resource):
 
@@ -12,7 +12,7 @@ class CommentLikesListEndpoint(Resource):
     @return_400_on_exception
     def post(self, comment_id):
         comment = Comment.query.get(int(comment_id))
-        if not comment or not comment.user_id in get_authorized_user_ids(self.current_user):
+        if not comment or not (comment.user_id in get_authorized_user_ids(self.current_user) or can_view_post(comment.post_id, self.current_user)):
             return Response(json.dumps({'message': f'Comment {comment_id} does not exist'}), mimetype="application/json", status=404)
 
         like_comment = LikeComment(self.current_user.id, comment_id)

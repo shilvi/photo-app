@@ -308,7 +308,7 @@ def get_comment_that_user_cannot_access(user_id):
                 users_1.id = comments.user_id
             LEFT OUTER JOIN posts AS posts_1 ON
                 posts_1.id = comments.post_id
-            WHERE (posts_1.user_id NOT IN ({0})) 
+            WHERE (posts_1.user_id NOT IN ({0})) AND (users_1.id NOT in ({0}))
             LIMIT 1
         '''.format(', '.join([str(id) for id in ids]))
         columns = [c.get('name') for c in inspector.get_columns('comments')]
