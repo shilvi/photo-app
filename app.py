@@ -39,8 +39,7 @@ suggestions.initialize_routes(api)
 # Server-side template for the homepage:
 @app.route('/')
 def home():
-    # url = lambda api: f'https://shilvi-photo-app.herokuapp.com/api/{api}'
-    url = lambda api: f'http://localhost:5000/api/{api}'
+    url = lambda api: f'https://shilvi-photo-app.herokuapp.com/api/{api}'
     print(requests.get(url('posts'), params={'limit': 8}).json())
     return render_template(
         'index.html', 
