@@ -1,16 +1,20 @@
-# load the environment variables:
 from dotenv import load_dotenv
 load_dotenv()
-
-from flask import Flask, render_template
+from flask import Flask, request
 from flask_restful import Api
+from flask_cors import CORS
+from flask import render_template
 import os
-from models import db, User
+from models import db, User, ApiNavigator
 from views import bookmarks, comments, followers, following, \
-    posts, profile, stories, suggestions, post_likes, comment_likes
-import requests
+    posts, profile, stories, suggestions, post_likes
+
+
 
 app = Flask(__name__)
+
+# CORS: allows anyone from anywhere to use your API:
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False    
@@ -31,22 +35,29 @@ followers.initialize_routes(api)
 following.initialize_routes(api)
 posts.initialize_routes(api)
 post_likes.initialize_routes(api)
-comment_likes.initialize_routes(api)
 profile.initialize_routes(api)
 stories.initialize_routes(api)
 suggestions.initialize_routes(api)
 
+
 # Server-side template for the homepage:
 @app.route('/')
 def home():
-    url = lambda api: f'https://shilvi-photo-app.herokuapp.com/api/{api}'
     return render_template(
-        'index.html', 
-        user=app.current_user.to_dict(),
-        posts=requests.get(url('posts'), params={'limit': 8}).json(),
-        stories=requests.get(url('stories')).json(),
-        suggestions=requests.get(url('suggestions')).json()
+        'starter-client.html', 
+        user=app.current_user
     )
+
+@app.route('/api')
+def api_docs():
+    navigator = ApiNavigator(app.current_user)
+    return render_template(
+        'api/api-docs.html', 
+        user=app.current_user,
+        endpoints=navigator.get_endpoints(),
+        url_root=request.url_root[0:-1] # trim trailing slash
+    )
+
 
 
 # enables flask app to run using "python3 app.py"
