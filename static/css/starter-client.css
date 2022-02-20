@@ -89,10 +89,6 @@ main {
     align-items: flex-end;
 }
 
-#posts {
-    width: 50vw;
-}
-
 .stories {
     padding: 10px;
     display: flex;
