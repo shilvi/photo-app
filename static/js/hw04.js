@@ -182,6 +182,57 @@ const makeComment = (button, post_id) => {
         .catch(error => { console.log(error) });
 }
 
+const post2ModalHtml = post => `
+    <div class="modal-post" aria-modal="true">
+        <img src="${ post.image_url }" alt="${ post.alt_text }"/>
+        <div>
+            <div class="header">
+                <img class="pic" src="${ post.user.thumb_url }" alt="Profile Pic for ${ post.user.username }">
+                <h2>${ post.user.username }</h2>
+            </div>
+            <div class="comments">
+                <div>
+                    <img class="pic" src="${ post.user.thumb_url }" alt="Profile Pic for ${ post.user.username }">
+                    <p><strong>${ post.user.username }</strong> ${ post.caption }</p>
+                </div>
+                ${post.comments.map(comment => `
+                    <div>
+                        <img class="pic" src="${ comment.user.thumb_url }" alt="Profile Pic for ${ comment.user.username }">
+                        <p><strong>${comment.user.username}</strong> ${comment.text}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    </div>
+`
+
+const openPost = (button, post_id) => {
+    let modal = document.querySelector('.modal')
+    fetch(`/api/posts/${post_id}`)
+        .then(response => response.json())
+        .then(post => {
+            document.onkeydown = (e) => { 
+                if (e.key === 'Tab') {
+                    e.preventDefault()
+                    modal.children[0].focus()
+                } else if (e.key === 'Escape') {
+                    modal.children[0].click()
+                }
+            } 
+            modal.children[0].onclick = () => {
+                document.onkeydown = null
+                document.body.style.overflow = "auto";
+                modal.classList.add('visuallyhidden')
+                modal.children[1].outerHTML = '<div></div>'
+                button.focus()
+            }
+            modal.children[1].outerHTML = post2ModalHtml(post)
+            document.body.style.overflow = "hidden";
+            modal.classList.remove('visuallyhidden')
+            modal.children[0].focus()
+        })
+}
+
 const post2Html = post => {
     return `
         <div class="card">
@@ -192,7 +243,7 @@ const post2Html = post => {
             <div class="info">
                 <div class="buttons">
                     <div>
-                        <button class="link" style="color: red;" aria-label=Follow
+                        <button class="link" style="color: red;" aria-label=Like
                             aria-checked=${ post.current_user_like_id ? 'true' : 'false' }
                             onclick="interactPost(this, ${ post.id })"  data-id=${ post.current_user_like_id }>
                             <i class="far ${ post.current_user_like_id ? 'fas' : '' } fa-heart"></i>
@@ -201,7 +252,7 @@ const post2Html = post => {
                             onclick="this.closest('.card').querySelector('.add-comment input').focus()">
                             <i class="far fa-comment"></i>
                         </button>
-                        <button class="link" style="color: black;"
+                        <button class="link" style="color: black;" aria-label=Send
                             onclick="alert('This feature is not implemented yet')">
                             <i class="far fa-paper-plane"></i>
                         </button>
@@ -220,7 +271,9 @@ const post2Html = post => {
                 </div>
                 ${ post.comments.length <= 1 ? '' : `
                 <div>
-                    <button class="link"><p>View all ${ post.comments.length } comments</p></button>
+                    <button class="link" onclick="openPost(this, ${ post.id })">
+                        <p>View all ${ post.comments.length } comments</p>
+                    </button>
                 </div>
                 `}
                 ${ post.comments.length == 0 ? '' : `
@@ -234,7 +287,8 @@ const post2Html = post => {
             </div>
             <div class="add-comment">
                 <div class="input-holder">
-                    <input placeholder="Add a comment…"
+                    <label style="display: none" for="comment_${ post.id }">Add a comment</label>
+                    <input placeholder="Add a comment…" id="comment_${ post.id }"
                         onkeydown="if (event.key === 'Enter') this.closest('.add-comment').querySelector('button').click()"
                         onfocus="this.closest('.card').querySelector('.fa-comment').classList.add('fas')"
                         onblur="this.closest('.card').querySelector('.fa-comment').classList.remove('fas')"></input>
