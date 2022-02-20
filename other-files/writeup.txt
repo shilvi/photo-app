@@ -1,33 +1,30 @@
-Accessibility Write-Up
+Heroku App: https://shilvi-photo-app.herokuapp.com/
+
+Accessibility Reflection
 Shilvi Satpati
 
-Q: What corrections did you have to make?
-A: 1. Missing form label for the comment box
-   2. Contrast Errors
-   Ignored:
-   1. Empty Button for all the buttons that don't do anythin yet
-   2. Possible heading alert for the like counter
+Q: What resources did you consult as you implemented the accessibility features?
+   Were there any that you found useful that aren’t on the Accessibility Resources page?
+A: Resources Used:
+   1. What the Heck is ARIA? A Beginner’s Guide to ARIA for Accessibility
+   2. ARIA Roles and Attributes: How to Actually Use Them
+   There were no other resources that I used for implementing the accessibility features.
 
 
-Q: Given that the photos and captions rely on user-generated content,
-   do you think that the accessibility problems are all solvable? Why
-   or why not?
-A: I don't think that all the accessibility problems are solvable.
-   Since the website is mainly an image sharing site, it would almost
-   always be impossible to get the context from a description of the
-   image.
+Q: Reflect on the work that went into making your website accessible.
+   Q: Was it a lot of additional work?
+   A: No, I didn't do too much additional work, since I was making sure that whenever
+      I created a button, I assigned the accessibility tags as well.
+   Q: What was the most challenging part?
+   A: The most challenging part was to get the focussing on modal opening correctly.
+      I had to write javascript to ensure that the correct elements get focus.
+   Q: Do you think that designing for accessibility also improves the usability of the
+      site for all users? Why or why not?
+   A: Yes, I think designing for accessibility can improve the usability for all users.
+      When designing for accessibility, it forces the developer to keep the interactions
+      in a consistant manner, which is useful even for normal users.
 
 
-Q: Do you think your website is usable if you turn off the CSS? Why or
-   why not?
-A: I think that my website is still usable after turning off CSS. The
-   relative order of all the elements is preserved and its easy to
-   discern all the different details.
-
-
-Q: Do you think your website is usable if you turn off the images? Why
-   or why not?
-A: My website layout is still techincally usable after turning off
-   images. The images get repalced by the alt-text, which is descriptive
-   enough to use. But since this is an image sharing site, I don't think
-   it would serve its purpose.
+Extra Credit:
+Make the "Escape" key close the modal (in addition to the close button),
+and make sure the focus still returns to the "View all X comments" button.
