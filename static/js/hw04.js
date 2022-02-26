@@ -9,7 +9,10 @@ const followUser = (button, user_id) => {
     if (!button.classList.contains('active')) {
         fetch('/api/following/', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json',},
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
             body: JSON.stringify({'user_id': user_id})
         })
             .then(response => response.ok ? response : Promise.reject(response))
@@ -25,6 +28,9 @@ const followUser = (button, user_id) => {
     } else {
         fetch(`/api/following/${button.follow.id}`, {
             method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            }
         })
             .then(response => response.ok ? response : Promise.reject(response))
             .then(response => response.json())
@@ -57,14 +63,22 @@ const suggestion2Html = suggestion => {
 };
 
 const displaySuggestions = () => {
-    fetch('/api/profile')
+    fetch('/api/profile', {
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        }
+    })
         .then(response => response.json())
         .then(profile => {
             const html = profile2Html(profile);
             document.querySelector('aside').querySelector('header').innerHTML = html;
         })
 
-    fetch('/api/suggestions')
+    fetch('/api/suggestions', {
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        }
+    })
         .then(response => response.json())
         .then(suggestions => {
             const html = suggestions.map(suggestion2Html).join('\n');
@@ -83,7 +97,11 @@ const story2Html = story => {
 };
 
 const displayStories = () => {
-    fetch('/api/stories')
+    fetch('/api/stories', {
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        }
+    })
         .then(response => response.json())
         .then(stories => {
             const html = stories.map(story2Html).join('\n');
@@ -93,7 +111,11 @@ const displayStories = () => {
 
 
 const reDrawPost = (element, post_id) => {
-    fetch(`/api/posts/${post_id}`)
+    fetch(`/api/posts/${post_id}`, {
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        }
+    })
         .then(response => response.json())
         .then(post => {
             element.closest('.card').outerHTML = post2Html(post)
@@ -105,7 +127,10 @@ const interactPost = (button, post_id) => {
     if (i.classList.contains('fa-heart')) {
         if (!i.classList.contains('fas')) {
             fetch(`/api/posts/${ post_id }/likes/`, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token')
+                }
             })
                 .then(response => response.ok ? response : Promise.reject(response))
                 .then(response => response.json())
@@ -120,6 +145,9 @@ const interactPost = (button, post_id) => {
         } else {
             fetch(`/api/posts/${ post_id }/likes/${ button.getAttribute('data-id') }`, {
                 method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token')
+                }
             })
                 .then(response => response.ok ? response : Promise.reject(response))
                 .then(response => response.json())
@@ -135,7 +163,10 @@ const interactPost = (button, post_id) => {
         if (!i.classList.contains('fas')) {
             fetch(`/api/bookmarks/`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json',},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token')
+                },
                 body: JSON.stringify({'post_id': post_id})
             })
                 .then(response => response.ok ? response : Promise.reject(response))
@@ -151,6 +182,9 @@ const interactPost = (button, post_id) => {
         } else {
             fetch(`/api/bookmarks/${ button.getAttribute('data-id') }`, {
                 method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token')
+                }
             })
                 .then(response => response.ok ? response : Promise.reject(response))
                 .then(response => response.json())
@@ -170,7 +204,10 @@ const makeComment = (button, post_id) => {
     console.log(`Commenting "${text}"`)
     fetch('/api/comments/', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json',},
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        },
         body: JSON.stringify({'post_id': post_id, 'text': text})
     })
         .then(response => response.ok ? response : Promise.reject(response))
@@ -208,7 +245,11 @@ const post2ModalHtml = post => `
 
 const openPost = (button, post_id) => {
     let modal = document.querySelector('.modal')
-    fetch(`/api/posts/${post_id}`)
+    fetch(`/api/posts/${post_id}`, {
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        }
+    })
         .then(response => response.json())
         .then(post => {
             document.onkeydown = (e) => { 
@@ -300,7 +341,11 @@ const post2Html = post => {
 };
 
 const displayPosts = () => {
-    fetch('/api/posts/?limit=10')
+    fetch('/api/posts/?limit=10', {
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        }
+    })
         .then(response => response.json())
         .then(posts => {
             const html = posts.map(post2Html).join('\n');
@@ -312,6 +357,22 @@ const initPage = () => {
     displaySuggestions();
     displayStories();
     displayPosts();
+};
+
+const getCookie = key => {
+    let name = key + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 };
 
 // invoke init page to display stories:
