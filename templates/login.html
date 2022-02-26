@@ -54,7 +54,15 @@
             <div class="error">{{ message }}</div>
         {% endif %}
         
-        YOUR FORM HERE
+        <div>
+            <label for="username">Username</label>
+            <input name="username" type="text" value="" id="username" placeholder="username" aria-required="true">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input name="password" type="password" value="" id="password" placeholder="password" aria-required="true"><br>
+        </div>
+        <button type="submit" aria-label="Login">Login</button>
     </form> 
 </body>
 </html>

@@ -56,6 +56,7 @@ token.initialize_routes(api)
 
 # Server-side template for the homepage:
 @app.route('/')
+@decorators.jwt_or_login
 def home():
     return render_template(
         'starter-client.html', 
