@@ -1,5 +1,6 @@
 from flask import Response
 from flask_restful import Resource
+import flask_jwt_extended
 from models import LikeComment, db, Comment
 import json
 from . import get_authorized_user_ids, can_view_post, return_400_on_exception
@@ -9,6 +10,7 @@ class CommentLikesListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     @return_400_on_exception
     def post(self, comment_id):
         comment = Comment.query.get(int(comment_id))
@@ -25,6 +27,7 @@ class CommentLikesDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     @return_400_on_exception
     def delete(self, comment_id, id):
         like_comment_query = LikeComment.query.filter_by(id=id, comment_id=comment_id)
@@ -42,12 +45,12 @@ def initialize_routes(api):
         CommentLikesListEndpoint, 
         '/api/comments/<comment_id>/likes', 
         '/api/comments/<comment_id>/likes/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
 
     api.add_resource(
         CommentLikesDetailEndpoint, 
         '/api/comments/<comment_id>/likes/<id>', 
         '/api/comments/<comment_id>/likes/<id>/',
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

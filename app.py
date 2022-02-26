@@ -43,8 +43,8 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return User.query.filter_by(id=user_id).one_or_none()
 
 # set logged in user
-with app.app_context():
-    app.current_user = User.query.filter_by(id=12).one()
+# with app.app_context():
+#     app.current_user = User.query.filter_by(id=12).one()
 
 
 # Initialize routes for all of your API endpoints:

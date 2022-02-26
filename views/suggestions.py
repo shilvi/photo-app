@@ -1,5 +1,6 @@
 from flask import Response, request
 from flask_restful import Resource
+import flask_jwt_extended
 from models import User, Following
 from . import get_authorized_user_ids
 import json
@@ -9,6 +10,7 @@ class SuggestionsListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     def get(self):
         following = [item.following_id for item in Following.query.filter(Following.user_id == self.current_user.id).all()]
         following_following = [item.following_id for item in Following.query.filter(Following.user_id.in_(following)).all()]
@@ -21,5 +23,5 @@ def initialize_routes(api):
         SuggestionsListEndpoint, 
         '/api/suggestions', 
         '/api/suggestions/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

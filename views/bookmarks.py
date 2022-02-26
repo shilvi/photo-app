@@ -1,5 +1,6 @@
 from flask import Response, request
 from flask_restful import Resource
+import flask_jwt_extended
 from models import Bookmark, db, Post
 import json
 from . import can_view_post, return_400_on_exception
@@ -9,10 +10,12 @@ class BookmarksListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     def get(self):
         bookmarks = Bookmark.query.filter(Bookmark.user_id == self.current_user.id).all()
         return Response(json.dumps([item.to_dict() for item in bookmarks]), mimetype="application/json", status=200)
 
+    @flask_jwt_extended.jwt_required()
     @return_400_on_exception
     def post(self):
         body = request.get_json()
@@ -32,6 +35,7 @@ class BookmarkDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     @return_400_on_exception
     def delete(self, id):
         bookmark_query = Bookmark.query.filter_by(id=id)
@@ -49,12 +53,12 @@ def initialize_routes(api):
         BookmarksListEndpoint, 
         '/api/bookmarks', 
         '/api/bookmarks/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
 
     api.add_resource(
         BookmarkDetailEndpoint, 
         '/api/bookmarks/<id>', 
         '/api/bookmarks/<id>',
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

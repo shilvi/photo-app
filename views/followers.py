@@ -1,5 +1,6 @@
 from flask import Response, request
 from flask_restful import Resource
+import flask_jwt_extended
 from models import Following
 from . import return_400_on_exception
 import json
@@ -11,6 +12,7 @@ class FollowerListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     @return_400_on_exception
     def get(self):
         followers = Following.query.filter(Following.following_id == self.current_user.id)
@@ -22,5 +24,5 @@ def initialize_routes(api):
         FollowerListEndpoint, 
         '/api/followers', 
         '/api/followers/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
