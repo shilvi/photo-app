@@ -32,7 +32,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
 db.init_app(app)
-api = Api(app)
+api = Api(app, errors=Flask.errorhandler)
 
 # defines the function for retrieving a user from the database
 @jwt.user_lookup_loader
