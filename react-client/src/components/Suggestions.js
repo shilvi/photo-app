@@ -1,4 +1,6 @@
 import React from 'react';
+import Suggestion from './Suggestion';
+import { getHeaders } from '../utils';
 
 class Suggestions extends React.Component {
 
@@ -8,6 +10,16 @@ class Suggestions extends React.Component {
 
     componentDidMount() {
         // fetch suggestions and then set the state...
+        fetch('/api/suggestions', {
+                headers: getHeaders(),
+            })
+            .then(response => response.ok ? response : Promise.reject(response))
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    suggestions: data
+                })
+            })
     }
 
     render () {
@@ -20,8 +32,11 @@ class Suggestions extends React.Component {
             <div className="suggestions">
                 <p className="suggestion-text">Suggestions for you</p>
                 <div>
-                    Suggestions
-                    {/* Suggestions */}
+                    {
+                    this.state.suggestions.map(suggestion => {
+                        return <Suggestion suggestion={suggestion} key={'suggestion-' + suggestion.id} />
+                    })
+                    }
                 </div>
             </div>
         );
