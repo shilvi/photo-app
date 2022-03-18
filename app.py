@@ -13,10 +13,17 @@ from views import bookmarks, comments, followers, following, \
     posts, profile, stories, suggestions, post_likes
 # new views:
 from views import authentication, token
+from flask_multistatic import MultiStaticFlask as Flask   # at the top
+from flask import send_from_directory                     # at the top
 
 
 
 app = Flask(__name__)
+
+app.static_folder = [
+    os.path.join(app.root_path, 'react-client', 'build', 'static'),
+    os.path.join(app.root_path, 'static')
+]
 
 #JWT config variables and manager (add after app object created):
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
@@ -66,10 +73,8 @@ token.initialize_routes(api)
 @app.route('/')
 @decorators.jwt_or_login
 def home():
-    return render_template(
-        'starter-client.html', 
-        user=flask_jwt_extended.current_user
-    )
+    # https://medium.com/swlh/how-to-deploy-a-react-python-flask-project-on-heroku-edb99309311
+    return send_from_directory(app.root_path + '/react-client/build', 'index.html')
 
 # Updated API endpoint includes a reference to 
 # access_token and csrf token.
