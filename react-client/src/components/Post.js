@@ -1,6 +1,8 @@
 import React from 'react';
 import LikeButton from './LikeButton';
 import BookmarkButton from './BookmarkButton';
+import Comments from './Comments';
+import AddComment from './AddComment';
 import { getAccessTokenCookie } from '../utils';
 
 class Post extends React.Component {
@@ -50,6 +52,13 @@ class Post extends React.Component {
                                 postId={post.id}
                                 likeId={post.current_user_like_id}
                                 requeryPost={this.requeryPost} />
+                            <button className="link" style={{color: 'darkgreen'}} aria-label="Comment">
+                                <i className="far fa-comment"></i>
+                            </button>
+                            <button className="link" style={{color: 'black'}} aria-label="Send"
+                                onClick={() => { alert('This feature is not implemented yet') }}>
+                                <i className="far fa-paper-plane"></i>
+                            </button>
                         </div>
                         <BookmarkButton
                             postId={post.id}
@@ -59,8 +68,17 @@ class Post extends React.Component {
                     <div className="likes">
                         <p><b>{post.likes.length} likes</b></p>
                     </div>
-                    <p>{ post.caption }</p>
+                    <div className="caption">
+                        <p><strong>{post.user.username}</strong> {post.caption}</p>
+                    </div>
+                    <Comments comments={post.comments} />
+                    <div className="timestamp">
+                        <p>{post.display_time}</p>
+                    </div>
                 </div>
+                <AddComment
+                    postId={post.id}
+                    requeryPost={this.requeryPost} />
             </section>
         );
     }
