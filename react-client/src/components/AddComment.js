@@ -12,6 +12,8 @@ class AddComment extends React.Component {
     makeComment(e) {
         // issue fetch request and then afterwards requery for the post:
         let text = this.textBox.current.value
+        if (!text)
+            return
         fetch('/api/comments/', {
                 method: 'POST',
                 headers: getHeaders(),
