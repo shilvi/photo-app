@@ -3,7 +3,7 @@ import LikeButton from './LikeButton';
 import BookmarkButton from './BookmarkButton';
 import Comments from './Comments';
 import AddComment from './AddComment';
-import { getAccessTokenCookie } from '../utils';
+import { getHeaders } from '../utils';
 
 class Post extends React.Component {
 
@@ -17,8 +17,10 @@ class Post extends React.Component {
 
     requeryPost = this.requeryPost.bind(this)
     requeryPost() {
+        const headers = getHeaders()
+        delete headers['Content-Type']
         fetch(`/api/posts/${this.state.post.id}`, {
-                headers: { 'Authorization': 'Bearer ' + getAccessTokenCookie() }
+                headers: headers
             })
             .then(response => response.ok ? response : Promise.reject(response))
             .then(response => response.json())
